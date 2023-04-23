@@ -1,0 +1,5 @@
+_build/
+.vscode/
+node_modules/
+.env
+app2.js

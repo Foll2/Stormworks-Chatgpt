@@ -1,0 +1,22 @@
+{
+  "name": "stormworkschatgpt",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "chatgpt": "^5.2.2",
+    "dotenv": "^16.0.3",
+    "openai": "^3.2.1"
+  },
+  "description": "Adds chatgpt to stormworks",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Stormworks",
+    "ChatGPT"
+  ],
+  "author": "Foll",
+  "license": "ISC"
+}
