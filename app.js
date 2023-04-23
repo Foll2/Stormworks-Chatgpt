@@ -15,7 +15,6 @@ const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
   const paramValue = parsedUrl.query.param.split(":");
   const formated = paramValue[0] + ":" + " " + paramValue[1]
-  //const prompt = await example(paramValue);
   
     conversationLog.push({
         role: "user",
@@ -34,8 +33,6 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && parsedUrl.pathname === '/127.0.0.1') {
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    //res.write(`Received parameter value: ${prompt}`);
-    //res.write(`Response: ${prompt}`);
     res.write(response);
     res.end();
     console.log(response)
@@ -49,17 +46,3 @@ const server = http.createServer(async (req, res) => {
 server.listen(3000, () => {
   console.log('Server listening on port 3000');
 });
-
-
-async function example(message) {
-    conversationLog.push({
-        role: "user",
-        content: message[1],
-        name: message[0],
-    });
-    const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo-0301",
-        messages: conversationLog,
-    });
-    return (completion.data.choices[0].message.content)
-  };
