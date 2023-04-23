@@ -8,9 +8,10 @@ The script uses the `dotenv` package to load environmental variables from a `.en
 
 ### Installation
 
-1. Clone the repository using `git clone https://github.com/Foll2/Stormworks-Chatgpt.git`
-2. Install the required dependencies using `npm install`
-3. Create a `.env` file and add the following variable with your OpenAI API key: 
+1. Install Node.js `https://nodejs.org/en/download`
+2. Clone the repository using `git clone https://github.com/Foll2/Stormworks-Chatgpt.git`
+3. Install the required dependencies using `npm install`
+4. Create a `.env` file and add the following variable with your OpenAI API key: 
 
 ```
 OPENAI_ACCESS_TOKEN=your_api_key_here
