@@ -9,27 +9,41 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-let conversationLog = [{ role: "system", content: "You are a friendly chatbot that can only write very short text/messages.",}];
+let conversationLog = [{ role: "system", content: "You are a friendly chatbot.",}];
 
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
-  const paramValue = parsedUrl.query.param.split(":");
-  const formated = paramValue[0] + ":" + " " + paramValue[1]
-  
+  let paramValue = null;
+  let response = null;
+
+  if (parsedUrl.query.param) {
+    paramValue = parsedUrl.query.param.split(":");
     conversationLog.push({
         role: "user",
         content: paramValue[1],
-        name: paramValue[0],
     });
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo-0301",
         messages: conversationLog,
+        max_tokens: 80,
     });
-    const response = completion.data.choices[0].message.content
+    response = completion.data.choices[0].message.content;
     conversationLog.push({
         role: "assistant",
         content: response,
     });
+  } else {
+    const latestAssistantMessage = conversationLog
+      .slice()
+      .reverse()
+      .find(message => message.role === 'assistant');
+
+    if (latestAssistantMessage) {
+      response = latestAssistantMessage.content;
+    } else {
+      response = "Sorry, I don't have any messages to display.";
+    }
+  }
 
   if (req.method === 'GET' && parsedUrl.pathname === '/127.0.0.1') {
     res.writeHead(200, {'Content-Type': 'text/plain'});
