@@ -10,17 +10,48 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 let conversationLog = [{ role: "system", content: "You are a friendly chatbot.",}];
+let privateLogs = {};
+
+
+function getPrivateLog(userId) {
+  if (!privateLogs[userId]) {
+    privateLogs[userId] = [];
+  }
+  return privateLogs[userId];
+}
 
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
-  let paramValue = null;
+  let Textraw = null;
+  let Private = null;
   let response = null;
+  let Received = null;
 
   if (parsedUrl.query.param) {
-    paramValue = parsedUrl.query.param.split(":");
+    Received = parsedUrl.query;
+    Textraw = Received.param.split(":");
+    Private = Received.param2;
+    console.log(Received)
+    if (Private === "true") {
+      const userId = Textraw[0];
+      getPrivateLog(userId).push({
+        role: "user",
+        content: Textraw[1],
+      });
+      const privateCompletion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo-0301",
+        messages: getPrivateLog(userId),
+        max_tokens: 80,
+      });
+      response = privateCompletion.data.choices[0].message.content;
+      getPrivateLog(userId).push({
+        role: "assistant",
+        content: response,
+      });
+    } else {
     conversationLog.push({
         role: "user",
-        content: paramValue[1],
+        content: Textraw[1],
     });
     const completion = await openai.createChatCompletion({
         model: "gpt-3.5-turbo-0301",
@@ -31,7 +62,7 @@ const server = http.createServer(async (req, res) => {
     conversationLog.push({
         role: "assistant",
         content: response,
-    });
+    });}
   } else {
     const latestAssistantMessage = conversationLog
       .slice()
@@ -47,7 +78,11 @@ const server = http.createServer(async (req, res) => {
 
   if (req.method === 'GET' && parsedUrl.pathname === '/127.0.0.1') {
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write(response);
+    if (Private === "true"){
+      res.write(Private.concat(";",Textraw[0],";",response));
+    } else {
+      res.write(Textraw[0].concat(";",response));
+    }
     res.end();
     console.log(response)
   } else {
