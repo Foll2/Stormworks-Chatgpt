@@ -8,9 +8,9 @@ The script uses the `dotenv` package to load environmental variables from a `.en
 
 ### Installation
 
-1. Install Node.js `https://nodejs.org/en/download`
-2. Clone the repository using `git clone https://github.com/Foll2/Stormworks-Chatgpt.git`
-3. Install the required dependencies using `npm install`
+1. Subscribe to the addon on the Steam Workshop
+2. Install Node.js `https://nodejs.org/en/download`
+3. Install the required dependencies using `npm i stormworkschatgpt`
 4. Create a `.env` file and add the following variable with your OpenAI API key: 
 
 ```
