@@ -19,18 +19,16 @@ function getPrivateLog(userId) {
   }
   return privateLogs[userId];
 }
-
+let Textraw = null;
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
-  let Textraw = null;
   let Private = null;
   let response = null;
   let Received = null;
-
-  if (parsedUrl.query.param) {
+  if (parsedUrl.query.content) {
     Received = parsedUrl.query;
-    Textraw = Received.param.split(":");
-    Private = Received.param2;
+    Textraw = Received.content.split(":");
+    Private = Received.private;
     console.log(Received)
     if (Private === "true") {
       const userId = Textraw[0];
