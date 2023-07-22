@@ -16,7 +16,7 @@ The script uses the `dotenv` package to load environmental variables from a `.en
 ```
 OPENAI_ACCESS_TOKEN=your_api_key_here
 ```
-Feel free to contact me on discord if you need any extra help: Foll#8000
+Feel free to contact me on discord if you need any extra help: foll.
 <sub>Temporary Api key may be granted if asked nicely</sub>
 
 ### Usage
