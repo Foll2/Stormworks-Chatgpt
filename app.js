@@ -19,25 +19,26 @@ function getPrivateLog(userId) {
   }
   return privateLogs[userId];
 }
+
 let Textraw = null;
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
   let Private = null;
   let response = null;
   let Received = null;
-  if (parsedUrl.query.content) {
+  if (parsedUrl.query.name && parsedUrl.query.message) {
     Received = parsedUrl.query;
-    Textraw = Received.content.split(":");
+    Textraw = Received.message;
     Private = Received.private;
     console.log(Received)
     if (Private === "true") {
-      const userId = Textraw[0];
+      const userId = Received.name;
       getPrivateLog(userId).push({
         role: "user",
-        content: Textraw[1],
+        content: Textraw,
       });
       const privateCompletion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo-0301",
+        model: "gpt-4o-mini",
         messages: getPrivateLog(userId),
         max_tokens: 80,
       });
@@ -49,10 +50,10 @@ const server = http.createServer(async (req, res) => {
     } else {
     conversationLog.push({
         role: "user",
-        content: Textraw[1],
+        content: Textraw,
     });
     const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo-0301",
+        model: "gpt-4o-mini",
         messages: conversationLog,
         max_tokens: 80,
     });
@@ -60,7 +61,8 @@ const server = http.createServer(async (req, res) => {
     conversationLog.push({
         role: "assistant",
         content: response,
-    });}
+    });
+    }
   } else {
     const latestAssistantMessage = conversationLog
       .slice()
@@ -74,7 +76,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  if (req.method === 'GET' && parsedUrl.pathname === '/127.0.0.1') {
+  if (req.method === 'GET' && parsedUrl.pathname === '/chat') {
     res.writeHead(200, {'Content-Type': 'text/plain'});
     if (Private === "true"){
       res.write(Private.concat(";",Textraw[0],";",response));

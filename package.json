@@ -1,9 +1,8 @@
 {
   "name": "stormworkschatgpt",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "dependencies": {
-    "chatgpt": "^5.2.2",
     "dotenv": "^16.0.3",
     "openai": "^3.2.1"
   },
@@ -11,7 +10,7 @@
   "main": "app.js",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "keywords": [
     "Stormworks",

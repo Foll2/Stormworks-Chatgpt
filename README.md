@@ -1,8 +1,7 @@
 ## Stormworks Chatbot
 
-This is a Node.js server script that allows a chatbot to communicate with players in the game Stormworks. The script uses HTTP to receive messages from the Stormworks server through GET requests. The received messages are then sent to OpenAI's API for processing using the GPT-3.5 language model. The model generates a response that is sent back to the Stormworks server and displayed in the in-game chat. 
+This is just a simple HTTP server coded in Node.js that is kinda like an interface for OpenAI's API for the game Stormworks. The first commits were awful because of me being an idiot and using chatgpt to code, do i regret it? Yes. Why? Because why use a LLM and not your brain to code. Sure, its a reliable tool, but you cant use a tool for everything. You can only learn so much and knowledge doesnt come from looking at other peoples work, it comes from experience.
 
-The conversation history is stored in an array called `conversationLog`, which keeps track of the role of the participant (user or assistant) and the message content. The server listens on port 3000 for incoming HTTP GET requests from the Stormworks server, and if the requested URL matches `/127.0.0.1`, the response is sent back to the Stormworks server and displayed in the in-game chat. If the requested URL does not match `/127.0.0.1`, a 404 Not Found error message is sent. 
 
 The script uses the `dotenv` package to load environmental variables from a `.env` file, including the OpenAI API access token used for authentication.
 
@@ -10,14 +9,13 @@ The script uses the `dotenv` package to load environmental variables from a `.en
 
 1. Subscribe to the addon on the Steam Workshop
 2. Install Node.js `https://nodejs.org/en/download`
-3. Install the required dependencies using `npm i stormworkschatgpt`
+3. Install the required dependencies using `npm i`
 4. Create a `.env` file and add the following variable with your OpenAI API key: 
 
 ```
 OPENAI_ACCESS_TOKEN=your_api_key_here
 ```
-Feel free to contact me on discord if you need any extra help: Foll#8000
-<sub>Temporary Api key may be granted if asked nicely</sub>
+Feel free to contact me on discord if you need any extra help: Foll.
 
 ### Usage
 
